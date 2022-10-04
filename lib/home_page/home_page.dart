@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant/user_profile.dart/user_profile.dart';
 import 'package:restaurant/widgets/app_bar_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -34,7 +35,7 @@ class _HomePageState extends State<HomePage> {
           if (currentIndex == 0) {
             return const Scaffold();
           }
-          return const Scaffold();
+          return const UserProfile();
         }),
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.red,
@@ -64,3 +65,4 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
