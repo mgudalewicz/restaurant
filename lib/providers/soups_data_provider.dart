@@ -18,7 +18,7 @@ class SoupsDataProvider {
     return soups;
   }
 
-  Stream<List<Soup>> getSoupStream() {
+  Stream<List<Soup>> getSoupsStream() {
     return _firebaseFirestore.collection('soup').snapshots().map(
       (querySnapshot) {
         return querySnapshot.docs.map(

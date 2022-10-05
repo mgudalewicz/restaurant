@@ -18,7 +18,7 @@ class DrinksDataProvider {
     return drinks;
   }
 
-  Stream<List<Drink>> getDrinkStream() {
+  Stream<List<Drink>> getDrinksStream() {
     return _firebaseFirestore.collection('drink').snapshots().map(
       (querySnapshot) {
         return querySnapshot.docs.map(

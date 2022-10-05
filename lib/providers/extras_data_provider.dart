@@ -18,7 +18,7 @@ class ExtrasDataProvider {
     return extras;
   }
 
-  Stream<List<Extra>> getExtraStream() {
+  Stream<List<Extra>> getExtrasStream() {
     return _firebaseFirestore.collection('extra').snapshots().map(
       (querySnapshot) {
         return querySnapshot.docs.map(

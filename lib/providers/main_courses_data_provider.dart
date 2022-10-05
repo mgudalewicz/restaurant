@@ -18,7 +18,7 @@ class MainCoursesDataProvider {
     return mainCourses;
   }
 
-  Stream<List<MainCourse>> getMainCourseStream() {
+  Stream<List<MainCourse>> getMainCoursesStream() {
     return _firebaseFirestore.collection('mainCourse').snapshots().map(
       (querySnapshot) {
         return querySnapshot.docs.map(
