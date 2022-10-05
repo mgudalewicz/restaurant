@@ -1,4 +1,4 @@
-class DrinksFields {
+class ItemsFields {
   /// Type [String]
   static const String id = 'id';
 
@@ -7,4 +7,7 @@ class DrinksFields {
 
   /// Type [String]
   static const String name = 'name';
+
+  /// Type [String]
+  static const String category = 'category';
 }

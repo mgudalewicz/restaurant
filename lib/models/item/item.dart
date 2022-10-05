@@ -2,36 +2,39 @@ import 'package:equatable/equatable.dart';
 import 'package:restaurant/schema/_schemas.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'main_course.g.dart';
+part 'item.g.dart';
 
 @JsonSerializable()
-class MainCourse extends Equatable {
-  const MainCourse({
+class Item extends Equatable {
+  const Item({
     required this.id,
     required this.prize,
     required this.name,
-
+    required this.category,
   });
 
-  factory MainCourse.fromJson(Map<String, dynamic> json) => _$MainCourseFromJson(json);
+  factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MainCourseToJson(this);
+  Map<String, dynamic> toJson() => _$ItemToJson(this);
 
-  @JsonKey(name: MainCourseFields.id)
+  @JsonKey(name: ItemsFields.id)
   final String id;
 
-  @JsonKey(name: MainCourseFields.prize)
+  @JsonKey(name: ItemsFields.prize)
   final double prize;
 
 
-  @JsonKey(name: MainCourseFields.name)
+  @JsonKey(name: ItemsFields.name)
   final String name;
 
+  @JsonKey(name: ItemsFields.category)
+  final String category;
 
   @override
   List<Object?> get props => <dynamic>[
         id,
         prize,
         name,
+        category,
       ];
 }

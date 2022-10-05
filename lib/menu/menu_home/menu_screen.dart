@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restaurant/menu/cubit/menu_cubit.dart';
-import 'package:restaurant/menu/menu_body.dart';
+import 'package:restaurant/menu/menu_home/cubit/menu_cubit.dart';
+import 'package:restaurant/menu/menu_home/menu_body.dart';
 
 class MenuScreen extends StatelessWidget {
   const MenuScreen({super.key});

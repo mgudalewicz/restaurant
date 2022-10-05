@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant/menu/cubit/menu_cubit.dart';
-import 'package:restaurant/menu/widgets/menu_card.dart';
-import 'package:restaurant/models/drink/drink.dart';
-import 'package:restaurant/models/main_course/main_course.dart';
-import 'package:restaurant/models/pizza/pizza.dart';
-import 'package:restaurant/models/soups/soup.dart';
+import 'package:restaurant/menu/menu_home/cubit/menu_cubit.dart';
+import 'package:restaurant/menu/menu_home/widgets/menu_card.dart';
+import 'package:restaurant/models/item/item.dart';
 
 class MenuBody extends StatefulWidget {
   const MenuBody({
@@ -19,29 +16,25 @@ class MenuBody extends StatefulWidget {
 }
 
 class _MenuBodyBodyState extends State<MenuBody> {
-  late List<Drink> drinksList = widget.state.drinks;
-  late List<MainCourse> mainCoursesList = widget.state.mainCourses;
-  late List<Pizza> pizzasList = widget.state.pizzas;
-  late List<Soup> soupsList = widget.state.soups;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
         children: [
-          _pizzasListView(context, pizzasList),
+          _pizzasListView(context),
           const SizedBox(height: 10),
-          _mainCoursesListtView(context, mainCoursesList),
+          _mainCoursesListtView(context),
           const SizedBox(height: 10),
-          _soupsListView(context, soupsList),
+          _soupsListView(context),
           const SizedBox(height: 10),
-          _drinksListView(context, drinksList),
+          _drinksListView(context),
         ],
       ),
     );
   }
 
-  Widget _pizzasListView(BuildContext context, List<Pizza> pizzasList) {
+  Widget _pizzasListView(BuildContext context) {
+    List<Item> pizzasList = widget.state.items.where((Item item) => item.category == 'pizza').toList();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -56,7 +49,7 @@ class _MenuBodyBodyState extends State<MenuBody> {
             for (final pizza in pizzasList) ...[
               MenuCard(
                 name: pizza.name,
-                prize: pizza.prize.toString(),
+                prize: pizza.prize,
               ),
             ],
           ],
@@ -65,7 +58,8 @@ class _MenuBodyBodyState extends State<MenuBody> {
     );
   }
 
-  Widget _mainCoursesListtView(BuildContext context, List<MainCourse> mainCoursesList) {
+  Widget _mainCoursesListtView(BuildContext context) {
+    List<Item> mainCoursesList = widget.state.items.where((Item item) => item.category == 'main_course').toList();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -80,7 +74,7 @@ class _MenuBodyBodyState extends State<MenuBody> {
             for (final mainCourse in mainCoursesList) ...[
               MenuCard(
                 name: mainCourse.name,
-                prize: mainCourse.prize.toString(),
+                prize: mainCourse.prize,
               ),
             ],
           ],
@@ -89,7 +83,9 @@ class _MenuBodyBodyState extends State<MenuBody> {
     );
   }
 
-  Widget _soupsListView(BuildContext context, List<Soup> soupsList) {
+  Widget _soupsListView(BuildContext context) {
+    List<Item> soupsList = widget.state.items.where((Item item) => item.category == 'soups').toList();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -104,7 +100,7 @@ class _MenuBodyBodyState extends State<MenuBody> {
             for (final soup in soupsList) ...[
               MenuCard(
                 name: soup.name,
-                prize: soup.prize.toString(),
+                prize: soup.prize,
               ),
             ],
           ],
@@ -113,7 +109,9 @@ class _MenuBodyBodyState extends State<MenuBody> {
     );
   }
 
-  Widget _drinksListView(BuildContext context, List<Drink> drinksList) {
+  Widget _drinksListView(BuildContext context) {
+    List<Item> drinksList = widget.state.items.where((Item item) => item.category == 'drinks').toList();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -128,7 +126,7 @@ class _MenuBodyBodyState extends State<MenuBody> {
             for (final drink in drinksList) ...[
               MenuCard(
                 name: drink.name,
-                prize: drink.prize.toString(),
+                prize: drink.prize,
               ),
             ],
           ],

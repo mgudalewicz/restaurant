@@ -12,29 +12,26 @@ class MenuLoadingState extends MenuState {
 }
 
 class MenuErrorState extends MenuState {
-  const MenuErrorState();
-}
-
-class MenuLoadedState extends MenuState {
-  const MenuLoadedState({
-    required this.pizzas,
-    required this.mainCourses,
-    required this.soups,
-    required this.drinks,
-
+  const MenuErrorState({
+    required this.error,
   });
 
-  final List<Pizza> pizzas;
-  final List<MainCourse> mainCourses;
-  final List<Soup> soups;
-  final List<Drink> drinks;
+  final String error;
 
+  @override
+  List<dynamic> get props => <dynamic>[
+        error,
+      ];
+}
+class MenuLoadedState extends MenuState {
+  const MenuLoadedState({
+    required this.items,
+  });
+
+  final List<Item> items;
 
   @override
   List<Object?> get props => <dynamic>[
-        pizzas,
-        mainCourses,
-        soups,
-        drinks,
+        items,
       ];
 }

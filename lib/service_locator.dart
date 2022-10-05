@@ -15,17 +15,12 @@ void configureDepenedencies() {
   sl.registerSingleton(FirebaseStorage.instance);
 
   //Provider
-  sl.registerFactory(() => DrinksDataProvider());
+  sl.registerFactory(() => ItemsDataProvider());
   sl.registerFactory(() => ExtrasDataProvider());
-  sl.registerFactory(() => MainCoursesDataProvider());
-  sl.registerFactory(() => PizzasDataProvider());
-  sl.registerFactory(() => SoupsDataProvider());
+
 
   //Manager
-  sl.registerFactory(() => DrinksDataManager());
+  sl.registerFactory(() => ItemsDataManager());
   sl.registerFactory(() => ExtrasDataManager());
-  sl.registerFactory(() => MainCoursesDataManager());
-  sl.registerFactory(() => PizzasDataManager());
-  sl.registerFactory(() => SoupsDataManager());
 
 }

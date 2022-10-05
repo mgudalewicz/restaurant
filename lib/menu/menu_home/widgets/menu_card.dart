@@ -8,7 +8,7 @@ class MenuCard extends StatelessWidget {
   });
 
   final String name;
-  final String prize;
+  final double prize;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class MenuCard extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            'cena: ${prize}zł',
+                            'cena: ${prize.toStringAsFixed(2)}zł',
                             style: const TextStyle(fontSize: 12.0),
                             maxLines: 1,
                           ),
