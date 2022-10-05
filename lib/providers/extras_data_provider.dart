@@ -1,4 +1,5 @@
 import 'package:restaurant/models/extras/extra.dart';
+import 'package:restaurant/schema/_schemas.dart';
 import 'package:restaurant/service_locator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -6,7 +7,7 @@ class ExtrasDataProvider {
   final FirebaseFirestore _firebaseFirestore = sl();
 
   Future<Map<String, Extra>> fetchAllExtra() async {
-    final QuerySnapshot<Map<String, dynamic>> result = await _firebaseFirestore.collection('extra').get();
+    final QuerySnapshot<Map<String, dynamic>> result = await _firebaseFirestore.collection(Collections.extras).get();
 
     final Map<String, Extra> extras = <String, Extra>{};
 
@@ -19,7 +20,7 @@ class ExtrasDataProvider {
   }
 
   Stream<List<Extra>> getExtrasStream() {
-    return _firebaseFirestore.collection('extra').snapshots().map(
+    return _firebaseFirestore.collection(Collections.extras).snapshots().map(
       (querySnapshot) {
         return querySnapshot.docs.map(
           (doc) {

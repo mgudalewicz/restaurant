@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant/menu/menu_screen.dart';
 import 'package:restaurant/user_profile.dart/user_profile.dart';
 import 'package:restaurant/widgets/app_bar_widget.dart';
 
@@ -33,7 +34,7 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBarWidget(title: currentIndex == 0 ? 'Menu' : 'Twoje konto'),
         body: Builder(builder: (context) {
           if (currentIndex == 0) {
-            return const Scaffold();
+            return const MenuScreen();
           }
           return const UserProfile();
         }),
@@ -65,4 +66,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-

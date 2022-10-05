@@ -1,4 +1,5 @@
 import 'package:restaurant/models/pizza/pizza.dart';
+import 'package:restaurant/schema/_schemas.dart';
 import 'package:restaurant/service_locator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -6,7 +7,7 @@ class PizzasDataProvider {
   final FirebaseFirestore _firebaseFirestore = sl();
 
   Future<Map<String, Pizza>> fetchAllPizza() async {
-    final QuerySnapshot<Map<String, dynamic>> result = await _firebaseFirestore.collection('pizza').get();
+    final QuerySnapshot<Map<String, dynamic>> result = await _firebaseFirestore.collection(Collections.pizza).get();
 
     final Map<String, Pizza> pizzas = <String, Pizza>{};
 
@@ -19,7 +20,7 @@ class PizzasDataProvider {
   }
 
   Stream<List<Pizza>> getPizzasStream() {
-    return _firebaseFirestore.collection('pizza').snapshots().map(
+    return _firebaseFirestore.collection(Collections.pizza).snapshots().map(
       (querySnapshot) {
         return querySnapshot.docs.map(
           (doc) {

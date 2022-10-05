@@ -47,6 +47,7 @@ dependencies:
   build_runner: ^2.2.1
   firebase_storage: ^10.3.10
   cloud_firestore: ^3.5.0
+  rxdart: ^0.27.5
 
 dev_dependencies:
   flutter_test:

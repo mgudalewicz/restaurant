@@ -1,4 +1,5 @@
 import 'package:restaurant/models/main_course/main_course.dart';
+import 'package:restaurant/schema/_schemas.dart';
 import 'package:restaurant/service_locator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -6,7 +7,8 @@ class MainCoursesDataProvider {
   final FirebaseFirestore _firebaseFirestore = sl();
 
   Future<Map<String, MainCourse>> fetchAllMainCourse() async {
-    final QuerySnapshot<Map<String, dynamic>> result = await _firebaseFirestore.collection('mainCourse').get();
+    final QuerySnapshot<Map<String, dynamic>> result =
+        await _firebaseFirestore.collection(Collections.mainCourse).get();
 
     final Map<String, MainCourse> mainCourses = <String, MainCourse>{};
 
@@ -19,7 +21,7 @@ class MainCoursesDataProvider {
   }
 
   Stream<List<MainCourse>> getMainCoursesStream() {
-    return _firebaseFirestore.collection('mainCourse').snapshots().map(
+    return _firebaseFirestore.collection(Collections.mainCourse).snapshots().map(
       (querySnapshot) {
         return querySnapshot.docs.map(
           (doc) {
