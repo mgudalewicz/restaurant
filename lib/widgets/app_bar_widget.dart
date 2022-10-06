@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 class AppBarWidget extends StatelessWidget with PreferredSizeWidget {
   const AppBarWidget({
     super.key,
-    required this.title,
+    this.title,
   });
 
-  final String title;
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(title, style: const TextStyle(fontSize: 25)),
+      title: title != null ? Text(title!, style: const TextStyle(fontSize: 25)) : null,
       centerTitle: true,
       flexibleSpace: Container(
         decoration: const BoxDecoration(

@@ -20,7 +20,7 @@ class MenuCubit extends Cubit<MenuState> {
 
     _subscription = _itemsDataManager.getAllItems().listen((List<Item> items) {
       if (items.isEmpty) {
-        emit(const MenuErrorState(error: 'Brak faktur'));
+        emit(const MenuErrorState(error: 'Nastąpił problem z bazą danych'));
         return;
       }
       items.sort((Item a, Item b) => a.prize.compareTo(b.prize));
