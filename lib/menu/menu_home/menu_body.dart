@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant/menu/menu_details/menu_details_screen.dart';
 import 'package:restaurant/menu/menu_home/cubit/menu_cubit.dart';
 import 'package:restaurant/menu/menu_home/widgets/menu_card.dart';
 import 'package:restaurant/models/item/item.dart';
+import 'package:restaurant/widgets/dish.dart';
+import 'package:restaurant/widgets/dish_mapper.dart';
 
 class MenuBody extends StatefulWidget {
   const MenuBody({
@@ -34,13 +37,13 @@ class _MenuBodyBodyState extends State<MenuBody> {
   }
 
   Widget _pizzasListView(BuildContext context) {
-    List<Item> pizzasList = widget.state.items.where((Item item) => item.category == 'pizza').toList();
+    List<Item> pizzasList = widget.state.items.where((Item item) => item.category == Dish.pizza).toList();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Pizza',
-          style: TextStyle(fontSize: 25.0),
+        Text(
+          DishMapper.getName(Dish.pizza),
+          style: const TextStyle(fontSize: 25.0),
         ),
         ListView(
           shrinkWrap: true,
@@ -50,6 +53,15 @@ class _MenuBodyBodyState extends State<MenuBody> {
               MenuCard(
                 name: pizza.name,
                 prize: pizza.prize,
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => MenuDetailsScreen(
+                        id: pizza.id,
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ],
@@ -59,13 +71,13 @@ class _MenuBodyBodyState extends State<MenuBody> {
   }
 
   Widget _mainCoursesListtView(BuildContext context) {
-    List<Item> mainCoursesList = widget.state.items.where((Item item) => item.category == 'main_course').toList();
+    List<Item> mainCoursesList = widget.state.items.where((Item item) => item.category == Dish.maincourse).toList();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Danie Główne',
-          style: TextStyle(fontSize: 25.0),
+        Text(
+          DishMapper.getName(Dish.maincourse),
+          style: const TextStyle(fontSize: 25.0),
         ),
         ListView(
           shrinkWrap: true,
@@ -75,6 +87,15 @@ class _MenuBodyBodyState extends State<MenuBody> {
               MenuCard(
                 name: mainCourse.name,
                 prize: mainCourse.prize,
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => MenuDetailsScreen(
+                        id: mainCourse.id,
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ],
@@ -84,14 +105,14 @@ class _MenuBodyBodyState extends State<MenuBody> {
   }
 
   Widget _soupsListView(BuildContext context) {
-    List<Item> soupsList = widget.state.items.where((Item item) => item.category == 'soups').toList();
+    List<Item> soupsList = widget.state.items.where((Item item) => item.category == Dish.soups).toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Zupy',
-          style: TextStyle(fontSize: 25.0),
+        Text(
+          DishMapper.getName(Dish.soups),
+          style: const TextStyle(fontSize: 25.0),
         ),
         ListView(
           shrinkWrap: true,
@@ -101,6 +122,15 @@ class _MenuBodyBodyState extends State<MenuBody> {
               MenuCard(
                 name: soup.name,
                 prize: soup.prize,
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => MenuDetailsScreen(
+                        id: soup.id,
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ],
@@ -110,14 +140,14 @@ class _MenuBodyBodyState extends State<MenuBody> {
   }
 
   Widget _drinksListView(BuildContext context) {
-    List<Item> drinksList = widget.state.items.where((Item item) => item.category == 'drinks').toList();
+    List<Item> drinksList = widget.state.items.where((Item item) => item.category == Dish.drinks).toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Napoje',
-          style: TextStyle(fontSize: 25.0),
+        Text(
+          DishMapper.getName(Dish.drinks),
+          style: const TextStyle(fontSize: 25.0),
         ),
         ListView(
           shrinkWrap: true,
@@ -127,6 +157,15 @@ class _MenuBodyBodyState extends State<MenuBody> {
               MenuCard(
                 name: drink.name,
                 prize: drink.prize,
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => MenuDetailsScreen(
+                        id: drink.id,
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ],

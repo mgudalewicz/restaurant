@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:restaurant/schema/_schemas.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:restaurant/widgets/dish.dart';
 
 part 'item.g.dart';
 
@@ -28,7 +29,7 @@ class Item extends Equatable {
   final String name;
 
   @JsonKey(name: ItemsFields.category)
-  final String category;
+  final Dish category;
 
   @override
   List<Object?> get props => <dynamic>[
