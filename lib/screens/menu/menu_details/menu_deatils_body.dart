@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restaurant/home_page/home_page.dart';
-import 'package:restaurant/menu/menu_details/cubit/menu_details_cubit.dart';
 import 'package:restaurant/models/extras/extra.dart';
+import 'package:restaurant/screens/home_page/home_page.dart';
+import 'package:restaurant/screens/menu/menu_details/cubit/menu_details_cubit.dart';
 import 'package:restaurant/widgets/app_bar_widget.dart';
 import 'package:restaurant/widgets/dish.dart';
 import 'package:restaurant/widgets/dish_mapper.dart';

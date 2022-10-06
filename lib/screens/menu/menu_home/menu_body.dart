@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant/menu/menu_details/menu_details_screen.dart';
-import 'package:restaurant/menu/menu_home/cubit/menu_cubit.dart';
-import 'package:restaurant/menu/menu_home/widgets/menu_card.dart';
+
 import 'package:restaurant/models/item/item.dart';
+import 'package:restaurant/screens/menu/menu_details/menu_details_screen.dart';
+import 'package:restaurant/screens/menu/menu_home/cubit/menu_cubit.dart';
+import 'package:restaurant/screens/menu/menu_home/widgets/menu_card.dart';
 import 'package:restaurant/widgets/dish.dart';
 import 'package:restaurant/widgets/dish_mapper.dart';
 
@@ -22,16 +23,46 @@ class _MenuBodyBodyState extends State<MenuBody> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
+      body: Column(
         children: [
-          _pizzasListView(context),
-          const SizedBox(height: 10),
-          _mainCoursesListtView(context),
-          const SizedBox(height: 10),
-          _soupsListView(context),
-          const SizedBox(height: 10),
-          _drinksListView(context),
+          Expanded(
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                _pizzasListView(context),
+                const SizedBox(height: 10),
+                _mainCoursesListtView(context),
+                const SizedBox(height: 10),
+                _soupsListView(context),
+                const SizedBox(height: 10),
+                _drinksListView(context),
+              ],
+            ),
+          ),
+          if (widget.state.order.prize != 0) _orderButton(),
         ],
+      ),
+    );
+  }
+
+  Padding _orderButton() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SizedBox(
+        height: kToolbarHeight,
+        width: double.infinity,
+        child: ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.red),
+          ),
+          onPressed: () {},
+          child: Center(
+            child: Text(
+              'Zamówienie (${widget.state.order.prize.toStringAsFixed(2)}zł)',
+              style: const TextStyle(fontSize: 20, color: Colors.white),
+            ),
+          ),
+        ),
       ),
     );
   }
