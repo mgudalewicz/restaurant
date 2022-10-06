@@ -6,22 +6,39 @@ import 'package:restaurant/providers/_provider.dart';
 import 'package:restaurant/service_locator.dart';
 
 class SubordersDataManager {
-  final SubordersDataProvider _drinksDataProvider = sl();
+  final SubordersDataProvider _subordersDataProvider = sl();
 
   Future<void> fetch() async {
-    _drinksDataProvider.fetchAllSuborder();
+    _subordersDataProvider.fetchAllSuborder();
   }
 
   Stream<List<Suborder>> getAllItems() {
-    return _drinksDataProvider.getSubordersStream();
+    return _subordersDataProvider.getSubordersStream();
   }
 
-    Future<void> create(
+  Future<void> create(
     SuborderWriteRequest suborderWriteRequest,
   ) async {
     try {
-      await _drinksDataProvider.create(
+      await _subordersDataProvider.create(
         suborderWriteRequest: suborderWriteRequest,
+      );
+      await fetch();
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: 'Coś poszło nie tak',
+        gravity: ToastGravity.TOP,
+        backgroundColor: Colors.red,
+      );
+    }
+  }
+
+  Future<void> delete(
+    String suborderId,
+  ) async {
+    try {
+      await _subordersDataProvider.delete(
+        suborderId: suborderId,
       );
       await fetch();
     } catch (e) {

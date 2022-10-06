@@ -37,4 +37,13 @@ class OrdersDataProvider {
   }) {
     return _firebaseFirestore.collection(Collections.orders).add(orderWriteRequest.toJson());
   }
+
+  Future<void> updatePrize({
+    required String orderId,
+    required double prize,
+  }) {
+    return _firebaseFirestore.collection(Collections.orders).doc(orderId).update(
+      {OrdersFields.prize: FieldValue.increment(prize)},
+    );
+  }
 }

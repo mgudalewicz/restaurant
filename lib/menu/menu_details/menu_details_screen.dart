@@ -7,14 +7,17 @@ class MenuDetailsScreen extends StatelessWidget {
   const MenuDetailsScreen({
     Key? key,
     required this.id,
+        required this.orderId,
+
   }) : super(key: key);
 
   final String id;
+  final String orderId;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => MenuDetailsCubit()..init(id),
+        create: (context) => MenuDetailsCubit()..init(id, orderId),
         child: BlocBuilder<MenuDetailsCubit, MenuDetailsState>(builder: (context, state) {
           if (state is MenuDetailsLoadingState) {
             return const Center(child: CircularProgressIndicator());

@@ -58,6 +58,7 @@ class _MenuBodyBodyState extends State<MenuBody> {
                     MaterialPageRoute(
                       builder: (context) => MenuDetailsScreen(
                         id: pizza.id,
+                        orderId: widget.state.order.id,
                       ),
                     ),
                   );
@@ -92,6 +93,7 @@ class _MenuBodyBodyState extends State<MenuBody> {
                     MaterialPageRoute(
                       builder: (context) => MenuDetailsScreen(
                         id: mainCourse.id,
+                        orderId: widget.state.order.id,
                       ),
                     ),
                   );
@@ -127,6 +129,7 @@ class _MenuBodyBodyState extends State<MenuBody> {
                     MaterialPageRoute(
                       builder: (context) => MenuDetailsScreen(
                         id: soup.id,
+                        orderId: widget.state.order.id,
                       ),
                     ),
                   );
@@ -161,6 +164,7 @@ class _MenuBodyBodyState extends State<MenuBody> {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => MenuDetailsScreen(
+                        orderId: widget.state.order.id,
                         id: drink.id,
                       ),
                     ),

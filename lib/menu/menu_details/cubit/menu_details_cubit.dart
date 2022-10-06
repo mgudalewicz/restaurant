@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:restaurant/managers/_managers.dart';
 import 'package:restaurant/models/extras/extra.dart';
 import 'package:restaurant/models/item/item.dart';
+import 'package:restaurant/models/order/order.dart';
 import 'package:restaurant/models/suborder/suborder_write_request.dart';
 import 'package:restaurant/service_locator.dart';
 import 'package:rxdart/rxdart.dart';
@@ -19,26 +20,32 @@ class MenuDetailsCubit extends Cubit<MenuDetailsState> {
   final ItemsDataManager _itemsDataManager = sl();
   final ExtrasDataManager _extrasDataManager = sl();
   final SubordersDataManager _subordersDataManager = sl();
+  final OrdersDataManager _ordersDataManager = sl();
 
   StreamSubscription<dynamic>? _subscription;
 
-  Future<void> init(String itemId) async {
+  Future<void> init(String itemId, String orderId) async {
     await _itemsDataManager.fetch();
     await _extrasDataManager.fetch();
+    await _ordersDataManager.fetch();
 
-    _subscription = CombineLatestStream.combine2(
+    _subscription = CombineLatestStream.combine3(
       _itemsDataManager.getAllItems(),
       _extrasDataManager.getAllExtras(),
+      _ordersDataManager.getAllItems(),
       (
         List<Item> items,
         List<Extra> extras,
+        List<Order> orders,
       ) {
+        final Order order = orders.firstWhere((Order order) => order.id == orderId);
         final Item item = items.firstWhere((Item item) => item.id == itemId);
         final List<Extra> extrasList = extras.where((Extra extra) => extra.category == item.category).toList();
 
         emit(MenuDetailsLoadedState(
           item: item,
           extras: extrasList,
+          order: order,
         ));
       },
     ).listen((_) {});
@@ -60,6 +67,7 @@ class MenuDetailsCubit extends Cubit<MenuDetailsState> {
     );
     try {
       await _subordersDataManager.create(suborderWriteRequest);
+      await _ordersDataManager.updatePrize(orderId: orderId, prize: prize * amount);
     } catch (error) {
       Fluttertoast.showToast(
         msg: 'Coś poszło nie tak: $error',

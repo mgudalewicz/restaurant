@@ -23,15 +23,19 @@ class MenuErrorState extends MenuState {
         error,
       ];
 }
+
 class MenuLoadedState extends MenuState {
   const MenuLoadedState({
     required this.items,
+    required this.order,
   });
 
   final List<Item> items;
+  final Order order;
 
   @override
   List<Object?> get props => <dynamic>[
         items,
+        order,
       ];
 }

@@ -22,6 +22,7 @@ class MenuDetailsBody extends StatefulWidget {
 class _MenuDetailsBodyState extends State<MenuDetailsBody> {
   bool thereAreAdditions = false;
   List<String> extrasList = [];
+  double singlePrize = 0;
   double prize = 0;
   int value = 0;
   int amount = 1;
@@ -30,6 +31,7 @@ class _MenuDetailsBodyState extends State<MenuDetailsBody> {
   void initState() {
     thereAreAdditions = widget.state.extras.isNotEmpty;
     prize = widget.state.item.prize;
+    singlePrize = widget.state.item.prize;
     if (widget.state.item.name == 'Schabowy') {
       extrasList.add(widget.state.extras.firstWhere((Extra extra) => extra.name == 'frytki').id);
     }
@@ -44,10 +46,11 @@ class _MenuDetailsBodyState extends State<MenuDetailsBody> {
         prize += widget.state.extras.firstWhere((Extra extra) => extra.id == extrasList[i]).prize;
       }
     }
+    singlePrize = prize;
     prize *= amount;
     return Scaffold(
       appBar: AppBarWidget(title: DishMapper.getName(widget.state.item.category)),
-      bottomNavigationBar: AddToOrder(context),
+      bottomNavigationBar: addToOrder(context),
       body: ListView(
         children: [
           const SizedBox(height: 10),
@@ -58,43 +61,12 @@ class _MenuDetailsBodyState extends State<MenuDetailsBody> {
           if (thereAreAdditions)
             Column(
               children: [
-                const SizedBox(height: 20),
+                _amountLine(),
                 if (widget.state.item.name == 'Schabowy') _choiceAdditionToPorkchop(),
                 const SizedBox(height: 20),
                 _toppingsListtView(context),
                 const SizedBox(height: 20),
                 _doughListtView(context),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      iconSize: 25,
-                      onPressed: (() => setState(() {
-                            if (amount > 1) {
-                              amount -= 1;
-                            }
-                          })),
-                      icon: const Icon(
-                        Icons.remove_circle_outline,
-                        color: Colors.red,
-                      ),
-                    ),
-                    Text(
-                      amount.toString(),
-                      style: const TextStyle(fontSize: 20),
-                    ),
-                    IconButton(
-                      iconSize: 25,
-                      onPressed: (() => setState(() {
-                            amount += 1;
-                          })),
-                      icon: const Icon(
-                        Icons.add_circle_outline,
-                        color: Colors.green,
-                      ),
-                    ),
-                  ],
-                )
               ],
             ),
         ],
@@ -102,14 +74,52 @@ class _MenuDetailsBodyState extends State<MenuDetailsBody> {
     );
   }
 
-  Material AddToOrder(BuildContext context) {
+  Widget _amountLine() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        IconButton(
+          iconSize: 25,
+          onPressed: (() => setState(() {
+                if (amount > 1) {
+                  amount -= 1;
+                }
+              })),
+          icon: const Icon(
+            Icons.remove_circle_outline,
+            color: Colors.red,
+          ),
+        ),
+        Text(
+          amount.toString(),
+          style: const TextStyle(fontSize: 20),
+        ),
+        IconButton(
+          iconSize: 25,
+          onPressed: (() => setState(() {
+                amount += 1;
+              })),
+          icon: const Icon(
+            Icons.add_circle_outline,
+            color: Colors.green,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget addToOrder(BuildContext context) {
     return Material(
       color: Colors.red,
       child: InkWell(
         onTap: () {
-          context
-              .read<MenuDetailsCubit>()
-              .save(prize: prize, itemId: widget.state.item.id, orderId: 'test', amount: amount, extrasId: extrasList);
+          context.read<MenuDetailsCubit>().save(
+                prize: singlePrize,
+                itemId: widget.state.item.id,
+                orderId: widget.state.order.id,
+                amount: amount,
+                extrasId: extrasList,
+              );
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => const HomePage(),

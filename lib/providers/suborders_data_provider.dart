@@ -43,4 +43,13 @@ class SubordersDataProvider {
   }) {
     return _firebaseFirestore.collection(Collections.suborders).doc(suborderId).delete();
   }
+
+  Future<void> updateAmount({
+    required String suborderId,
+    required int amount,
+  }) {
+    return _firebaseFirestore.collection(Collections.suborders).doc(suborderId).update(
+      {SubordersFields.amount: amount},
+    );
+  }
 }

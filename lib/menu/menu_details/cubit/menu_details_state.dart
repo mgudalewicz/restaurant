@@ -15,15 +15,17 @@ class MenuDetailsLoadedState extends MenuDetailsState {
   const MenuDetailsLoadedState({
     required this.item,
     required this.extras,
-
+    required this.order,
   });
 
   final Item item;
   final List<Extra> extras;
+  final Order order;
 
   @override
   List<Object?> get props => <dynamic>[
         item,
         extras,
+        order,
       ];
 }
