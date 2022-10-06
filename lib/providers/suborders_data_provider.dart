@@ -8,20 +8,20 @@ class SubordersDataProvider {
   final FirebaseFirestore _firebaseFirestore = sl();
 
   Future<Map<String, Suborder>> fetchAllSuborder() async {
-    final QuerySnapshot<Map<String, dynamic>> result = await _firebaseFirestore.collection(Collections.orders).get();
+    final QuerySnapshot<Map<String, dynamic>> result = await _firebaseFirestore.collection(Collections.suborders).get();
 
-    final Map<String, Suborder> orders = <String, Suborder>{};
+    final Map<String, Suborder> suborders = <String, Suborder>{};
 
     for (QueryDocumentSnapshot<Map<String, dynamic>> doc in result.docs) {
-      final Suborder order = Suborder.fromJson(doc.data()..['id'] = doc.id);
-      orders[doc.id] = order;
+      final Suborder suborder = Suborder.fromJson(doc.data()..['id'] = doc.id);
+      suborders[doc.id] = suborder;
     }
 
-    return orders;
+    return suborders;
   }
 
   Stream<List<Suborder>> getSubordersStream() {
-    return _firebaseFirestore.collection(Collections.orders).snapshots().map(
+    return _firebaseFirestore.collection(Collections.suborders).snapshots().map(
       (querySnapshot) {
         return querySnapshot.docs.map(
           (doc) {
@@ -33,14 +33,14 @@ class SubordersDataProvider {
   }
 
   Future<void> create({
-    required SuborderWriteRequest orderWriteRequest,
+    required SuborderWriteRequest suborderWriteRequest,
   }) {
-    return _firebaseFirestore.collection(Collections.orders).add(orderWriteRequest.toJson());
+    return _firebaseFirestore.collection(Collections.suborders).add(suborderWriteRequest.toJson());
   }
 
   Future<void> delete({
     required String suborderId,
   }) {
-    return _firebaseFirestore.collection(Collections.orders).doc(suborderId).delete();
+    return _firebaseFirestore.collection(Collections.suborders).doc(suborderId).delete();
   }
 }

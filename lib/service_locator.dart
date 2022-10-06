@@ -17,10 +17,10 @@ void configureDepenedencies() {
   //Provider
   sl.registerFactory(() => ItemsDataProvider());
   sl.registerFactory(() => ExtrasDataProvider());
-
+  sl.registerFactory(() => SubordersDataProvider());
 
   //Manager
   sl.registerFactory(() => ItemsDataManager());
   sl.registerFactory(() => ExtrasDataManager());
-
+  sl.registerFactory(() => SubordersDataManager());
 }

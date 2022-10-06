@@ -10,6 +10,7 @@ class SuborderWriteRequest extends Equatable {
     required this.prize,
     required this.itemId,
     required this.orderId,
+    required this.amount,
     this.extrasId = const <String>[],
   });
 
@@ -26,6 +27,9 @@ class SuborderWriteRequest extends Equatable {
   @JsonKey(name: SubordersFields.orderId)
   final String orderId;
 
+  @JsonKey(name: SubordersFields.amount)
+  final int amount;
+
   @JsonKey(name: SubordersFields.extrasId)
   final List<String> extrasId;
 
@@ -35,5 +39,6 @@ class SuborderWriteRequest extends Equatable {
         itemId,
         orderId,
         extrasId,
+        amount,
       ];
 }

@@ -13,4 +13,7 @@ class SubordersFields {
 
     /// Type [List]
   static const String extrasId = 'extras_id';
+
+    /// Type [int]
+  static const String amount = 'amount';
 }

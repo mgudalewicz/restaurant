@@ -1,10 +1,13 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:restaurant/managers/_managers.dart';
 import 'package:restaurant/models/extras/extra.dart';
 import 'package:restaurant/models/item/item.dart';
+import 'package:restaurant/models/suborder/suborder_write_request.dart';
 import 'package:restaurant/service_locator.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -15,6 +18,7 @@ class MenuDetailsCubit extends Cubit<MenuDetailsState> {
 
   final ItemsDataManager _itemsDataManager = sl();
   final ExtrasDataManager _extrasDataManager = sl();
+  final SubordersDataManager _subordersDataManager = sl();
 
   StreamSubscription<dynamic>? _subscription;
 
@@ -38,6 +42,37 @@ class MenuDetailsCubit extends Cubit<MenuDetailsState> {
         ));
       },
     ).listen((_) {});
+  }
+
+  Future<void> save({
+    required double prize,
+    required String itemId,
+    required String orderId,
+    required int amount,
+    required List<String> extrasId,
+  }) async {
+    final SuborderWriteRequest suborderWriteRequest = SuborderWriteRequest(
+      prize: prize,
+      itemId: itemId,
+      orderId: orderId,
+      extrasId: extrasId,
+      amount: amount,
+    );
+    try {
+      await _subordersDataManager.create(suborderWriteRequest);
+    } catch (error) {
+      Fluttertoast.showToast(
+        msg: 'Coś poszło nie tak: $error',
+        gravity: ToastGravity.TOP,
+        backgroundColor: Colors.red,
+      );
+      return;
+    }
+    Fluttertoast.showToast(
+      msg: 'Dodano pozycję do Twojego zamówienia',
+      gravity: ToastGravity.TOP,
+      backgroundColor: Colors.green,
+    );
   }
 
   @override
