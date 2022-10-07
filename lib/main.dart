@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant/screens/auth/auth_gate.dart';
+import 'package:restaurant/screens/first_page.dart';
 import 'package:restaurant/service_locator.dart';
 import 'firebase_options.dart';
 
@@ -24,8 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const AuthGate(),
+      home: const FirstPage(),
     );
   }
 }
-

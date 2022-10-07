@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant/screens/menu/menu_home/menu_screen.dart';
-import 'package:restaurant/screens/user_profile.dart/user_profile.dart';
+import 'package:restaurant/screens/user_profile.dart/user_profile_screen.dart';
 import 'package:restaurant/widgets/app_bar_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
           if (currentIndex == 0) {
             return const MenuScreen();
           }
-          return const UserProfile();
+          return const UserProfileScreen();
         }),
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.red,

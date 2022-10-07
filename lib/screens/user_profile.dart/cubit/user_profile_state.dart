@@ -1,6 +1,31 @@
 part of 'user_profile_cubit.dart';
 
-@immutable
-abstract class UserProfileState {}
+abstract class UserProfileState extends Equatable {
+  const UserProfileState();
 
-class UserProfileInitial extends UserProfileState {}
+  @override
+  List<Object?> get props => <dynamic>[];
+}
+
+class UserProfileLoadingState extends UserProfileState {
+  const UserProfileLoadingState();
+}
+
+class UserProfileLoadedState extends UserProfileState {
+  const UserProfileLoadedState({
+    required this.user,
+    required this.orders,
+
+  });
+
+  final List<Order> orders;
+  final User user;
+
+
+  @override
+  List<Object?> get props => <dynamic>[
+        user,
+        orders,
+
+      ];
+}

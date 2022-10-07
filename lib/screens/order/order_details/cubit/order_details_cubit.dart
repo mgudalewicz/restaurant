@@ -93,6 +93,7 @@ class OrderDetailsCubit extends Cubit<OrderDetailsState> {
       comment: comment,
     );
     try {
+      _ordersDataManager.create(OrderWriteRequest(inProgress: true, prize: 0, userId: user.uid));
       await sendEmail(
         email: user.email!,
         message: message,

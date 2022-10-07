@@ -28,49 +28,55 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
 
   @override
   Widget build(BuildContext context) {
+    bool orderEnded = widget.state.order.inProgress;
     message = '';
     return Scaffold(
       appBar: AppBarWidget(
         title: 'Zamówienie',
-        leading: _backToPreviousSide(),
+        leading: _backToPreviousSide(orderEnded),
       ),
-      bottomNavigationBar: saveOrder(context),
+      bottomNavigationBar: orderEnded ? saveOrder(context) : backToProfile(context),
       body: Column(
         children: [
           Expanded(
             child: ListView(
               shrinkWrap: true,
               children: [
-                for (final suborder in widget.state.suborder) ...[_suborderListView(context, suborder)],
+                for (final suborder in widget.state.suborder) ...[_suborderListView(context, suborder, orderEnded)],
               ],
             ),
           ),
-          const Divider(
-            color: Colors.yellow,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextFormField(
-              controller: _commentsToOrder,
-              maxLines: null,
-              decoration: const InputDecoration(
-                labelStyle: TextStyle(color: Colors.blue),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blue),
+          if (orderEnded == true)
+            Column(
+              children: [
+                const Divider(
+                  color: Colors.yellow,
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blue),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    controller: _commentsToOrder,
+                    maxLines: null,
+                    decoration: const InputDecoration(
+                      labelStyle: TextStyle(color: Colors.blue),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue),
+                      ),
+                      labelText: 'Uwagi do zamówienia',
+                    ),
+                  ),
                 ),
-                labelText: 'Uwagi do zamówienia',
-              ),
+              ],
             ),
-          ),
         ],
       ),
     );
   }
 
-  Widget _suborderListView(BuildContext context, Suborder suborder) {
+  Widget _suborderListView(BuildContext context, Suborder suborder, bool orderEnded) {
     String prize = (suborder.amount * suborder.prize).toStringAsFixed(2);
     Item dinner = widget.state.items.firstWhere((Item item) => item.id == suborder.itemId);
     message += '(Ilość: ${suborder.amount})${dinner.name} (${DishMapper.getName(dinner.category)}) cena: ${prize}zł ';
@@ -133,25 +139,26 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                         Text('Cena: ${prize}zł'),
                       ],
                     ),
-                    IconButton(
-                      iconSize: 25,
-                      onPressed: () {
-                        context.read<OrderDetailsCubit>().deleteSuborder(
-                              suborder: suborder,
-                            );
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => OrderDetailsScreen(
-                              orderId: widget.state.order.id,
+                    if (orderEnded == true)
+                      IconButton(
+                        iconSize: 25,
+                        onPressed: () {
+                          context.read<OrderDetailsCubit>().deleteSuborder(
+                                suborder: suborder,
+                              );
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => OrderDetailsScreen(
+                                orderId: widget.state.order.id,
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      icon: const Icon(
-                        Icons.delete_forever,
-                        color: Colors.red,
+                          );
+                        },
+                        icon: const Icon(
+                          Icons.delete_forever,
+                          color: Colors.red,
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ],
@@ -194,17 +201,50 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
     );
   }
 
-  Widget _backToPreviousSide() {
+  Widget backToProfile(BuildContext context) {
+    return Material(
+      color: Colors.red,
+      child: InkWell(
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const HomePage(pageIndex: 1),
+            ),
+          );
+        },
+        child: const SizedBox(
+          height: kToolbarHeight,
+          width: double.infinity,
+          child: Center(
+            child: Text(
+              'Wróć',
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _backToPreviousSide(bool orderEnded) {
     return IconButton(
-      onPressed: goToViewHome,
+      onPressed: orderEnded ? goToMenuPage : goToProfilePage,
       icon: const Icon(Icons.arrow_back),
     );
   }
 
-  Future<void> goToViewHome() {
+  Future<void> goToMenuPage() {
     return Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => const HomePage(),
+      ),
+    );
+  }
+
+  Future<void> goToProfilePage() {
+    return Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const HomePage(pageIndex: 1),
       ),
     );
   }
