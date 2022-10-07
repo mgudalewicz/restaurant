@@ -73,11 +73,16 @@ class OrdersDataManager {
   Future<void> sendEmail({
     required String email,
     required String message,
+    required String prize,
+        required String comment,
+
   }) async {
     try {
       await _ordersDataProvider.sendEmail(
         email: email,
         message: message,
+        prize: prize,
+        comment: comment,
       );
     } catch (e) {
       Fluttertoast.showToast(

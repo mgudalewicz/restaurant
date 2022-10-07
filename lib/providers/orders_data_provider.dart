@@ -60,6 +60,8 @@ class OrdersDataProvider {
   Future sendEmail({
     required String email,
     required String message,
+    required String prize,
+    required String comment,
   }) async {
     String serviceId = 'service_braycyt';
     String templateId = 'template_lc9bowh';
@@ -79,6 +81,8 @@ class OrdersDataProvider {
           'template_params': {
             'message': message,
             'email': email,
+            'prize': prize,
+            'comment': comment,
           }
         },
       ),

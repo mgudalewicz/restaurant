@@ -21,24 +21,27 @@ class OrderDetailsBody extends StatefulWidget {
   State<OrderDetailsBody> createState() => _OrderDetailsBodyState();
 }
 
+String message = '';
+
 class _OrderDetailsBodyState extends State<OrderDetailsBody> {
   final TextEditingController _commentsToOrder = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    message = '';
     return Scaffold(
       appBar: AppBarWidget(
         title: 'Zamówienie',
         leading: _backToPreviousSide(),
       ),
-      bottomNavigationBar: addToOrder(context),
+      bottomNavigationBar: saveOrder(context),
       body: Column(
         children: [
           Expanded(
             child: ListView(
               shrinkWrap: true,
               children: [
-                for (final suborder in widget.state.suborder) ...[_pizzasListView(context, suborder)],
+                for (final suborder in widget.state.suborder) ...[_suborderListView(context, suborder)],
               ],
             ),
           ),
@@ -67,12 +70,15 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
     );
   }
 
-  Widget _pizzasListView(BuildContext context, Suborder suborder) {
+  Widget _suborderListView(BuildContext context, Suborder suborder) {
     String prize = (suborder.amount * suborder.prize).toStringAsFixed(2);
     Item dinner = widget.state.items.firstWhere((Item item) => item.id == suborder.itemId);
+    message += '(Ilość: ${suborder.amount})${dinner.name} (${DishMapper.getName(dinner.category)}) cena: ${prize}zł ';
     List<String> extrasName = [];
     for (final extraId in suborder.extrasId) {
-      [extrasName.add(widget.state.extras.firstWhere((Extra extra) => extra.id == extraId).name)];
+      String extraName = widget.state.extras.firstWhere((Extra extra) => extra.id == extraId).name;
+      message += '+$extraName ';
+      [extrasName.add(extraName)];
     }
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -133,7 +139,6 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                         context.read<OrderDetailsCubit>().deleteSuborder(
                               suborder: suborder,
                             );
-                        wait();
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => OrderDetailsScreen(
@@ -157,12 +162,13 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
     );
   }
 
-  Widget addToOrder(BuildContext context) {
+  Widget saveOrder(BuildContext context) {
     return Material(
       color: Colors.red,
       child: InkWell(
         onTap: () {
           context.read<OrderDetailsCubit>().saveOrder(
+                message: message,
                 prize: widget.state.order.prize,
                 orderId: widget.state.order.id,
                 comment: _commentsToOrder.text,
@@ -201,9 +207,5 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
         builder: (context) => const HomePage(),
       ),
     );
-  }
-
-  Future<void> wait() async {
-    await Future.delayed(const Duration(seconds: 1));
   }
 }

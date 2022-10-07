@@ -83,6 +83,7 @@ class OrderDetailsCubit extends Cubit<OrderDetailsState> {
     required String orderId,
     required double prize,
     required String comment,
+    required String message,
   }) async {
     final User? user = _firebaseAuth.currentUser;
     final OrderWriteRequest orderWriteRequest = OrderWriteRequest(
@@ -92,7 +93,12 @@ class OrderDetailsCubit extends Cubit<OrderDetailsState> {
       comment: comment,
     );
     try {
-      await sendEmail(email: user.email!, message: 'udało się');
+      await sendEmail(
+        email: user.email!,
+        message: message,
+        prize: prize.toStringAsFixed(2),
+        comment: comment,
+      );
       await _ordersDataManager.saveOrder(
         orderWriteRequest: orderWriteRequest,
         orderId: orderId,
@@ -105,7 +111,6 @@ class OrderDetailsCubit extends Cubit<OrderDetailsState> {
       );
       return false;
     }
-    sendEmail(email: user.email!, message: 'udało się');
     Fluttertoast.showToast(
       msg: 'Zamówienie zostało złożone',
       gravity: ToastGravity.TOP,
@@ -117,11 +122,15 @@ class OrderDetailsCubit extends Cubit<OrderDetailsState> {
   Future<void> sendEmail({
     required String email,
     required String message,
+    required String prize,
+    required String comment,
   }) async {
     try {
       await _ordersDataManager.sendEmail(
         email: email,
         message: message,
+        prize: prize,
+        comment: comment,
       );
     } catch (error) {
       Fluttertoast.showToast(
