@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant/models/extras/extra.dart';
 import 'package:restaurant/models/item/item.dart';
 import 'package:restaurant/models/suborder/suborder.dart';
 import 'package:restaurant/screens/order/order_details/cubit/order_details_cubit.dart';
+import 'package:restaurant/screens/order/order_details/order_details_screen.dart';
 import 'package:restaurant/widgets/app_bar_widget.dart';
 import 'package:restaurant/widgets/dish_mapper.dart';
 
@@ -96,7 +98,18 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                     ),
                     IconButton(
                       iconSize: 25,
-                      onPressed: () {},
+                      onPressed: () {
+                        context.read<OrderDetailsCubit>().deleteSuborder(
+                              suborder: suborder,
+                            );
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => OrderDetailsScreen(
+                              orderId: widget.state.order.id,
+                            ),
+                          ),
+                        );
+                      },
                       icon: const Icon(
                         Icons.delete_forever,
                         color: Colors.red,
