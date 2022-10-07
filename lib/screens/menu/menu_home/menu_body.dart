@@ -4,6 +4,7 @@ import 'package:restaurant/models/item/item.dart';
 import 'package:restaurant/screens/menu/menu_details/menu_details_screen.dart';
 import 'package:restaurant/screens/menu/menu_home/cubit/menu_cubit.dart';
 import 'package:restaurant/screens/menu/menu_home/widgets/menu_card.dart';
+import 'package:restaurant/screens/order/order_details/order_details_screen.dart';
 import 'package:restaurant/widgets/dish.dart';
 import 'package:restaurant/widgets/dish_mapper.dart';
 
@@ -45,7 +46,7 @@ class _MenuBodyBodyState extends State<MenuBody> {
     );
   }
 
-  Padding _orderButton() {
+  Widget _orderButton() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
@@ -55,7 +56,15 @@ class _MenuBodyBodyState extends State<MenuBody> {
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(Colors.red),
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => OrderDetailsScreen(
+                  orderId: widget.state.order.id,
+                ),
+              ),
+            );
+          },
           child: Center(
             child: Text(
               'Zamówienie (${widget.state.order.prize.toStringAsFixed(2)}zł)',
