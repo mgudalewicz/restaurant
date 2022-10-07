@@ -1,16 +1,11 @@
-# restaurant
+# Restaurant
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Prosta aplikacja do zamiawiania dań.
+Dostępne funkcjonalności:
+● Wybór dowolnego zestawu dań,
+● Każde danie można wybrać n razy,
+● Całkowita cena zamówienia aktualizuje się w czasie rzeczywistym,
+● Istnieje możliwość dodania “Uwag do zamówienia”
+● Złożone zamówienie zostaje wysłane na adres email
+● Użytkownik posiada możliwość wglądu do historii zamówień
+● Zaimplementowane logowanie się z Firebase za pomocą adresu email.
