@@ -23,7 +23,6 @@ class OrdersDataManager {
       await _ordersDataProvider.create(
         orderWriteRequest: orderWriteRequest,
       );
-      await fetch();
     } catch (e) {
       Fluttertoast.showToast(
         msg: 'Coś poszło nie tak',
@@ -46,6 +45,43 @@ class OrdersDataManager {
     } catch (e) {
       Fluttertoast.showToast(
         msg: e.toString(),
+        gravity: ToastGravity.TOP,
+        backgroundColor: Colors.red,
+      );
+    }
+  }
+
+  Future<void> saveOrder({
+    required String orderId,
+    required OrderWriteRequest orderWriteRequest,
+  }) async {
+    try {
+      await _ordersDataProvider.saveOrder(
+        orderId: orderId,
+        orderWriteRequest: orderWriteRequest,
+      );
+      await fetch();
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: e.toString(),
+        gravity: ToastGravity.TOP,
+        backgroundColor: Colors.red,
+      );
+    }
+  }
+
+  Future<void> sendEmail({
+    required String email,
+    required String message,
+  }) async {
+    try {
+      await _ordersDataProvider.sendEmail(
+        email: email,
+        message: message,
+      );
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: 'Coś poszło nie tak',
         gravity: ToastGravity.TOP,
         backgroundColor: Colors.red,
       );

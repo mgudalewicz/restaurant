@@ -10,7 +10,7 @@ class OrderWriteRequest extends Equatable {
     required this.prize,
     required this.inProgress,
     required this.userId,
-
+    this.comment,
   });
 
   factory OrderWriteRequest.fromJson(Map<String, dynamic> json) => _$OrderWriteRequestFromJson(json);
@@ -27,10 +27,14 @@ class OrderWriteRequest extends Equatable {
   @JsonKey(name: OrdersFields.userId)
   final String userId;
 
+  @JsonKey(name: OrdersFields.comment)
+  final String? comment;
+
   @override
   List<Object?> get props => <dynamic>[
         prize,
         inProgress,
         userId,
+        comment,
       ];
 }

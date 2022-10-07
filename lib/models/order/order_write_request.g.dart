@@ -11,6 +11,7 @@ OrderWriteRequest _$OrderWriteRequestFromJson(Map<String, dynamic> json) =>
       prize: (json['prize'] as num).toDouble(),
       inProgress: json['in_progress'] as bool,
       userId: json['user_id'] as String,
+      comment: json['comment'] as String?,
     );
 
 Map<String, dynamic> _$OrderWriteRequestToJson(OrderWriteRequest instance) =>
@@ -18,4 +19,5 @@ Map<String, dynamic> _$OrderWriteRequestToJson(OrderWriteRequest instance) =>
       'prize': instance.prize,
       'in_progress': instance.inProgress,
       'user_id': instance.userId,
+      'comment': instance.comment,
     };

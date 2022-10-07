@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant/models/extras/extra.dart';
 import 'package:restaurant/models/item/item.dart';
 import 'package:restaurant/models/suborder/suborder.dart';
+import 'package:restaurant/screens/home_page/home_page.dart';
 import 'package:restaurant/screens/order/order_details/cubit/order_details_cubit.dart';
 import 'package:restaurant/screens/order/order_details/order_details_screen.dart';
 import 'package:restaurant/widgets/app_bar_widget.dart';
@@ -21,16 +22,46 @@ class OrderDetailsBody extends StatefulWidget {
 }
 
 class _OrderDetailsBodyState extends State<OrderDetailsBody> {
+  final TextEditingController _commentsToOrder = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppBarWidget(title: 'Zamówienie'),
+      appBar: AppBarWidget(
+        title: 'Zamówienie',
+        leading: _backToPreviousSide(),
+      ),
       bottomNavigationBar: addToOrder(context),
-      body: ListView(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
+      body: Column(
         children: [
-          for (final suborder in widget.state.suborder) ...[_pizzasListView(context, suborder)],
+          Expanded(
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                for (final suborder in widget.state.suborder) ...[_pizzasListView(context, suborder)],
+              ],
+            ),
+          ),
+          const Divider(
+            color: Colors.yellow,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextFormField(
+              controller: _commentsToOrder,
+              maxLines: null,
+              decoration: const InputDecoration(
+                labelStyle: TextStyle(color: Colors.blue),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                ),
+                labelText: 'Uwagi do zamówienia',
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -102,6 +133,7 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                         context.read<OrderDetailsCubit>().deleteSuborder(
                               suborder: suborder,
                             );
+                        wait();
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => OrderDetailsScreen(
@@ -129,7 +161,19 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
     return Material(
       color: Colors.red,
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          context.read<OrderDetailsCubit>().saveOrder(
+                prize: widget.state.order.prize,
+                orderId: widget.state.order.id,
+                comment: _commentsToOrder.text,
+              );
+
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const HomePage(),
+            ),
+          );
+        },
         child: SizedBox(
           height: kToolbarHeight,
           width: double.infinity,
@@ -142,5 +186,24 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
         ),
       ),
     );
+  }
+
+  Widget _backToPreviousSide() {
+    return IconButton(
+      onPressed: goToViewHome,
+      icon: const Icon(Icons.arrow_back),
+    );
+  }
+
+  Future<void> goToViewHome() {
+    return Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const HomePage(),
+      ),
+    );
+  }
+
+  Future<void> wait() async {
+    await Future.delayed(const Duration(seconds: 1));
   }
 }

@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:restaurant/models/order/order.dart';
 import 'package:restaurant/models/order/order_write_request.dart';
 import 'package:restaurant/schema/_schemas.dart';
 import 'package:restaurant/service_locator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:http/http.dart' as http;
 
 class OrdersDataProvider {
   final FirebaseFirestore _firebaseFirestore = sl();
@@ -38,6 +41,13 @@ class OrdersDataProvider {
     return _firebaseFirestore.collection(Collections.orders).add(orderWriteRequest.toJson());
   }
 
+  Future<void> saveOrder({
+    required String orderId,
+    required OrderWriteRequest orderWriteRequest,
+  }) {
+    return _firebaseFirestore.collection(Collections.orders).doc(orderId).update(orderWriteRequest.toJson());
+  }
+
   Future<void> updatePrize({
     required String orderId,
     required double prize,
@@ -45,5 +55,34 @@ class OrdersDataProvider {
     return _firebaseFirestore.collection(Collections.orders).doc(orderId).update(
       {OrdersFields.prize: FieldValue.increment(prize)},
     );
+  }
+
+  Future sendEmail({
+    required String email,
+    required String message,
+  }) async {
+    String serviceId = 'service_braycyt';
+    String templateId = 'template_lc9bowh';
+    String uderId = 'vGOAh-e6qiMocp-iQ';
+
+    final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: json.encode(
+        {
+          'service_id': serviceId,
+          'template_id': templateId,
+          'user_id': uderId,
+          'template_params': {
+            'message': message,
+            'email': email,
+          }
+        },
+      ),
+    );
+    return response.statusCode;
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -8,6 +9,7 @@ import 'package:restaurant/managers/_managers.dart';
 import 'package:restaurant/models/extras/extra.dart';
 import 'package:restaurant/models/item/item.dart';
 import 'package:restaurant/models/order/order.dart';
+import 'package:restaurant/models/order/order_write_request.dart';
 import 'package:restaurant/models/suborder/suborder.dart';
 import 'package:restaurant/service_locator.dart';
 import 'package:rxdart/rxdart.dart';
@@ -21,6 +23,7 @@ class OrderDetailsCubit extends Cubit<OrderDetailsState> {
   final OrdersDataManager _ordersDataManager = sl();
   final ItemsDataManager _itemsDataManager = sl();
   final ExtrasDataManager _extrasDataManager = sl();
+  final FirebaseAuth _firebaseAuth = sl();
 
   StreamSubscription<dynamic>? _subscription;
 
@@ -60,7 +63,6 @@ class OrderDetailsCubit extends Cubit<OrderDetailsState> {
     try {
       await _subordersDataManager.delete(suborder.id);
       await _ordersDataManager.updatePrize(orderId: suborder.orderId, prize: -(suborder.prize * suborder.amount));
-
     } catch (error) {
       Fluttertoast.showToast(
         msg: 'Coś poszło nie tak: $error',
@@ -72,9 +74,63 @@ class OrderDetailsCubit extends Cubit<OrderDetailsState> {
     Fluttertoast.showToast(
       msg: 'Danie zostało usunięte',
       gravity: ToastGravity.TOP,
-      backgroundColor: Colors.cyan.shade800,
+      backgroundColor: Colors.green,
     );
     return true;
+  }
+
+  Future<bool> saveOrder({
+    required String orderId,
+    required double prize,
+    required String comment,
+  }) async {
+    final User? user = _firebaseAuth.currentUser;
+    final OrderWriteRequest orderWriteRequest = OrderWriteRequest(
+      prize: prize,
+      inProgress: false,
+      userId: user!.uid,
+      comment: comment,
+    );
+    try {
+      await sendEmail(email: user.email!, message: 'udało się');
+      await _ordersDataManager.saveOrder(
+        orderWriteRequest: orderWriteRequest,
+        orderId: orderId,
+      );
+    } catch (error) {
+      Fluttertoast.showToast(
+        msg: 'Coś poszło nie tak: $error',
+        gravity: ToastGravity.TOP,
+        backgroundColor: Colors.red,
+      );
+      return false;
+    }
+    sendEmail(email: user.email!, message: 'udało się');
+    Fluttertoast.showToast(
+      msg: 'Zamówienie zostało złożone',
+      gravity: ToastGravity.TOP,
+      backgroundColor: Colors.green,
+    );
+    return true;
+  }
+
+  Future<void> sendEmail({
+    required String email,
+    required String message,
+  }) async {
+    try {
+      await _ordersDataManager.sendEmail(
+        email: email,
+        message: message,
+      );
+    } catch (error) {
+      Fluttertoast.showToast(
+        msg: 'Nie udało się wysłać e-maila',
+        gravity: ToastGravity.TOP,
+        backgroundColor: Colors.red,
+      );
+      return;
+    }
   }
 
   @override

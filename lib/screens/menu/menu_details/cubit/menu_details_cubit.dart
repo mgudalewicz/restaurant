@@ -82,7 +82,7 @@ class MenuDetailsCubit extends Cubit<MenuDetailsState> {
       backgroundColor: Colors.green,
     );
   }
-
+  
   @override
   Future<void> close() {
     _subscription?.cancel();

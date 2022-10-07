@@ -10,4 +10,7 @@ class OrdersFields {
 
   /// Type [String]
   static const String userId = 'user_id';
+
+    /// Type [String]
+  static const String comment = 'comment';
 }

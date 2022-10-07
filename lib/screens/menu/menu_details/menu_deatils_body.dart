@@ -238,7 +238,6 @@ class _MenuDetailsBodyState extends State<MenuDetailsBody> {
                           } else {
                             extrasList.remove(extra.id);
                           }
-                          print(extrasList);
                         },
                       );
                     },

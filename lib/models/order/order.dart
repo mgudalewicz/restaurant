@@ -11,6 +11,7 @@ class Order extends Equatable {
     required this.prize,
     required this.inProgress,
     required this.userId,
+    this.comment,
   });
 
   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
@@ -29,11 +30,15 @@ class Order extends Equatable {
   @JsonKey(name: OrdersFields.userId)
   final String userId;
 
+  @JsonKey(name: OrdersFields.comment)
+  final String? comment;
+
   @override
   List<Object?> get props => <dynamic>[
         id,
         prize,
         inProgress,
         userId,
+        comment,
       ];
 }

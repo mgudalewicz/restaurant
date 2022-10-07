@@ -11,6 +11,7 @@ Order _$OrderFromJson(Map<String, dynamic> json) => Order(
       prize: (json['prize'] as num).toDouble(),
       inProgress: json['in_progress'] as bool,
       userId: json['user_id'] as String,
+      comment: json['comment'] as String?,
     );
 
 Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{
@@ -18,4 +19,5 @@ Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{
       'prize': instance.prize,
       'in_progress': instance.inProgress,
       'user_id': instance.userId,
+      'comment': instance.comment,
     };
