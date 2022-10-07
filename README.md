@@ -1,4 +1,4 @@
-# Restaurant
+# Aplikacja: Restaurant
 
 Prosta aplikacja do zamiawiania dań.
 Dostępne funkcjonalności:
