@@ -70,8 +70,8 @@ class MenuCubit extends Cubit<MenuState> {
   }
 
   Future<void> _updateState(User user) async {
-    await _itemsDataManager.fetch();
-    await _ordersDataManager.fetch();
+     _itemsDataManager.fetch();
+     _ordersDataManager.fetch();
     _subscription = CombineLatestStream.combine2(
       _itemsDataManager.getAllItems(),
       _ordersDataManager.getAllItems(),
